@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Search from "../Components/SearchFood"
 
 export default function AddMealScreen() {
   const [name, setName] = useState('');
@@ -40,13 +41,13 @@ export default function AddMealScreen() {
 
     Alert.alert('Success', 'Meal added successfully!');
 
-    router.push('/');
+    router.replace('/tabs');
   };
 
   return (
     <View style={globalStyles.container}>
       <Text style={globalStyles.title}>Add Meal</Text>
-
+      <Search></Search>
       <TextInput
         style={styles.input}
         placeholder='Meal name'

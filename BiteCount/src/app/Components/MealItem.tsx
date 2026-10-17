@@ -19,7 +19,7 @@ export default function MealItem({
     <View style={styles.container}>
       <Text style={styles.name}>{name}</Text>
       <Text style={styles.macros}>
-        {calories} cal • {protein}g P • {carbs}g C • {fat}g F
+        {calories} cal , {protein}g P , {carbs}g C , {fat}g F
       </Text>
     </View>
   );
