@@ -7,6 +7,11 @@ export type Meal = {
   protein: number;
   carbs: number;
   fat: number;
+  sodium: number,
+  potassium: number,
+  iron: number,
+  sugar: number,
+
   createdAt: string;
 };
 

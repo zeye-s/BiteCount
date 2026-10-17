@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  FlatList,
 } from 'react-native';
 import Search from "../Components/SearchFood"
 
@@ -18,6 +19,10 @@ export default function AddMealScreen() {
   const [protein, setProtein] = useState('');
   const [carbs, setCarbs] = useState('');
   const [fat, setFat] = useState('');
+  const [iron, setIron] = useState('');
+  const [potassium, setPotassium] = useState('');
+  const [sugar, setSugar] = useState('');
+  const [sodium, setSodium] = useState('');
 
   const handleAddMeal = async () => {
     if (!name || !calories) {
@@ -31,6 +36,10 @@ export default function AddMealScreen() {
       protein: Number(protein) || 0,
       carbs: Number(carbs) || 0,
       fat: Number(fat) || 0,
+      potassium: Number(potassium) || 0,
+      sodium: Number(sodium) || 0,
+      iron: Number(iron) || 0,
+      sugar: Number(sugar) || 0,
     });
 
     setName('');
@@ -92,6 +101,41 @@ export default function AddMealScreen() {
         />
       </View>
 
+       <View style={styles.row}>
+        <TextInput
+          style={[styles.input, styles.rowInput]}
+          placeholder='Sugar (g)'
+          placeholderTextColor={colors.textSecondary}
+          keyboardType='numeric'
+          value={sugar}
+          onChangeText={setSugar}
+        />
+        <TextInput
+          style={[styles.input, styles.rowInput]}
+          placeholder='Sodium (g)'
+          placeholderTextColor={colors.textSecondary}
+          keyboardType='numeric'
+          value={sodium}
+          onChangeText={setSodium}
+        />
+        <TextInput
+          style={[styles.input, styles.rowInput]}
+          placeholder='Potassium (g)'
+          placeholderTextColor={colors.textSecondary}
+          keyboardType='numeric'
+          value={potassium}
+          onChangeText={setPotassium}
+        />
+        <TextInput
+          style={[styles.input, styles.rowInput]}
+          placeholder='Iron (g)'
+          placeholderTextColor={colors.textSecondary}
+          keyboardType='numeric'
+          value={iron}
+          onChangeText={setIron}
+        />
+      </View>
+
       <TouchableOpacity style={styles.button} onPress={handleAddMeal}>
         <Text style={styles.buttonText}>Add Meal</Text>
       </TouchableOpacity>
@@ -105,7 +149,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     padding: 16,
     borderRadius: 10,
-    fontSize: 16,
+    fontSize: 14,
     marginTop: 16,
   },
   row: {
