@@ -1,2 +1,2 @@
 # BiteCount
-a nutrtition tracker
+a nutrtition tracker built on React Native and expo
