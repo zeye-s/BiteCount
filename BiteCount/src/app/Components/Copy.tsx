@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
-import { Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { Meal } from '../storage/meals';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { colors } from '../../../styles/global';
+import { Meal } from '../storage/meals';
 
 type CopyButtonProps = {
   meals: Meal[];
@@ -20,10 +20,9 @@ export default function CopyButton({ meals }: CopyButtonProps) {
       { calories: 0, protein: 0, carbs: 0, fat: 0 },
     );
 
-    const summary = `MacroZone Daily Summary\n\nCalories: ${totals.calories}\nProtein: ${totals.protein}g\nCarbs: ${totals.carbs}g\nFat: ${totals.fat}g\n\nMeals: ${meals.length} logged today`;
+    const summary = `BiteCount Daily Summary\n\nCalories: ${totals.calories}\nProtein: ${totals.protein}g\nCarbs: ${totals.carbs}g\nFat: ${totals.fat}g\n\nMeals: ${meals.length} logged today`;
 
     await Clipboard.setStringAsync(summary);
-    Alert.alert('Copied!', 'Macro summary copied to clipboard.');
   };
 
   return (

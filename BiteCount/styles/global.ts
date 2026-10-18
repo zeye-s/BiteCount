@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 export const colors = {
-  background: '#1a1a2e',
-  header: '#242444',
-  surface: '#2a2a4a',
+  background: '#588157',
+  header: '#344e41',
+  surface: '#31572c',
   primary: '#4fc3f7',
-  text: '#ffffff',
-  textSecondary: '#a0a0b0',
+  text: '#f2e8cf',
+  textSecondary: '#ecf39e',
   alert: '#ff5252',
 };
 
@@ -26,7 +26,6 @@ export const globalStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: colors.textSecondary,
-    marginTop: 30,
     marginBottom: 16,
   },
   empty: {

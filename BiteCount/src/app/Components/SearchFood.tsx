@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, FlatList } from 'react-native';
 import {useState} from 'react';
-import {colors, globalStyles} from '../../../styles/global';
+import {colors} from '../../../styles/global';
+import { Ionicons } from '@expo/vector-icons';
 
 interface Product {
     code?: string;
@@ -26,7 +27,8 @@ export default function Search(){
     const searchRecipe = async() =>{
         try{
             setRecipeFound(true);
-            const result = await fetch(`https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(query)}?&page_size=20&fields=code,product_name,nutriments`,
+            const searchQuery = query.trim() === '' ? 3017624010701 : query.trim()
+            const result = await fetch(`https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(searchQuery)}?&page_size=20&fields=code,product_name,nutriments`,
             {
                 headers: {
                         // Open Food Facts requires a custom User-Agent header
@@ -38,45 +40,56 @@ export default function Search(){
                 throw new Error;
             }
             const data = await result.json();
-            
-            setRecipe([data.product]);
-            return (data); 
-            
+            if(data.product){
+                setRecipe([data.product]);
+                return (data); 
+            }
+            else{
+                setRecipe([]);
+            }
             }
         catch(error){
             console.error('could not fetch this', error);
         }
         finally{
             setRecipeFound(false);
+            setQuery('');
         }
     }
 
    return (
-        <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Search Food</Text>
+        <View style={styles.container}>
+            <Text style={styles.title}>Search Food</Text>
 
             {/* Search Input and Button */}
             <View>
                 <TextInput 
                     style={styles.search}
-                    placeholder="Enter a food Barcode(e.g., 3017624010701)..."
+                    placeholder="Enter food Barcode(ex. 3017624010701)"
                     placeholderTextColor={colors.textSecondary}
                     value={query}
                     onChangeText={setQuery}
                 />
             </View>
-            
-            <TouchableOpacity style={styles.searchButton} onPress={searchRecipe}>
-                <Text style={styles.text}>{recipeFound ? 'Searching...' : 'Search'}</Text>
-            </TouchableOpacity>
+            <View style = {styles.searchButton}>
+                <TouchableOpacity  onPress={searchRecipe}>
+                    <Text style={styles.text}>{recipeFound ? 'Searching...' : 'Search'}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style = {{marginRight:10,}}>
+                    <Ionicons name = "camera-outline" size = {20} color={colors.text}/>
+                </TouchableOpacity>
+            </View>
 
             {/* Results List */}
             <FlatList<Product>
                 data={recipe}
                 keyExtractor={(item, index) => item.code || index.toString()}
+                nestedScrollEnabled
+                keyboardShouldPersistTaps="handled"
+                style={styles.results}
                 renderItem={({ item }) => (
                     <View style={styles.card}>
-                        <Text style={styles.productName}>{item.product_name + ' Per 100g'|| 'Unknown Food'}</Text>
+                        <Text style={styles.productName}>{(item.product_name || 'Unknown Food') + ' Per 100g'}</Text>
                         <Text style={styles.itemName}>Calories: {item.nutriments?.['energy-kcal_100g'] || 'N/A'} kcal</Text>
                         <Text style={styles.itemName}>Carbs: {item.nutriments?.['carbohydrates_100g'] || 'N/A'}g</Text>
                         <Text style={styles.itemName}>Protein: {item.nutriments?.['proteins_100g'] || 'N/A'}g</Text>
@@ -85,6 +98,7 @@ export default function Search(){
                         <Text style={styles.itemName}>Sodium: {item.nutriments?.['sodium_100g'] || 'N/A'}g</Text>
                         <Text style={styles.itemName}>Potassium: {item.nutriments?.['potassium_100g'] || 'N/A'}g</Text>
                         <Text style={styles.itemName}>Iron: {item.nutriments?.['iron_100g'] || 'N/A'}g</Text>
+                        <Text style = {styles.itemName}>Information provided by Open Food Facts API</Text>
                     </View>
                 )}
             />
@@ -93,6 +107,20 @@ export default function Search(){
 }
 
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: colors.background,
+        paddingTop: 20,
+        paddingHorizontal: 20,
+    },
+    results: {
+        maxHeight: 240,
+        flexGrow: 0,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: colors.text,
+     },
     search: {
         backgroundColor: colors.header,
         borderRadius: 10,
@@ -100,16 +128,19 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
     },
-    searchButton: {
+        searchButton: {
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        width:'50%',
         backgroundColor: colors.surface,
-        borderRadius: 20,
-        width: 200,
+        borderRadius: 15,
         padding: 10,
         marginBottom: 15,
     },
     text: {
         color: colors.text,
-        textAlign: 'center',
+        marginLeft:10,
     },
     card: {
         backgroundColor: colors.header,

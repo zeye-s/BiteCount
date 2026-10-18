@@ -6,6 +6,10 @@ type MealItemProps = {
   protein: number;
   carbs: number;
   fat: number;
+  sodium: number;
+  potassium: number;
+  iron: number;
+  sugar: number;
 };
 
 export default function MealItem({
@@ -14,6 +18,10 @@ export default function MealItem({
   protein,
   carbs,
   fat,
+  sodium,
+  iron,
+  sugar,
+  potassium,
 }: MealItemProps) {
   return (
     <View style={styles.container}>
@@ -27,7 +35,7 @@ export default function MealItem({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#16213e',
+    backgroundColor: '#344e41',
     borderRadius: 10,
     padding: 16,
     marginBottom: 10,
@@ -35,11 +43,11 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#ffffff',
+    color: '#f2e8cf',
   },
   macros: {
     fontSize: 13,
-    color: '#a0a0b0',
+    color: '#ecf39e',
     marginTop: 4,
   },
 });

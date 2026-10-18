@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
-import { Meal } from '../storage/meals';
 import MacroCard from '../Components/MacroCards';
+import { Meal } from '../storage/meals';
 
 type MacroGridProps = {
   meals: Meal[];

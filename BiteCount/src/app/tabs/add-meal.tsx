@@ -9,7 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  FlatList,
+  ScrollView,
 } from 'react-native';
 import Search from "../Components/SearchFood"
 
@@ -47,6 +47,10 @@ export default function AddMealScreen() {
     setProtein('');
     setCarbs('');
     setFat('');
+    setSodium('');
+    setPotassium('');
+    setIron('');
+    setSugar('');
 
     Alert.alert('Success', 'Meal added successfully!');
 
@@ -54,7 +58,11 @@ export default function AddMealScreen() {
   };
 
   return (
-    <View style={globalStyles.container}>
+    <ScrollView
+      style={globalStyles.container}
+      contentContainerStyle={styles.content}
+      keyboardShouldPersistTaps='handled'
+    >
       <Text style={globalStyles.title}>Add Meal</Text>
       <Search></Search>
       <TextInput
@@ -139,11 +147,14 @@ export default function AddMealScreen() {
       <TouchableOpacity style={styles.button} onPress={handleAddMeal}>
         <Text style={styles.buttonText}>Add Meal</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  content: {
+    paddingBottom: 300,
+  },
   input: {
     backgroundColor: colors.surface,
     color: colors.text,

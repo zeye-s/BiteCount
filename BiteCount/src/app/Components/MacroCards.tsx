@@ -24,7 +24,7 @@ export default function MacroCard({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#16213e',
+    backgroundColor: '#344e41',
     borderRadius: 12,
     padding: 16,
     width: '47%',
@@ -32,17 +32,17 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: '#a0a0b0',
+    color: '#ecf39e',
   },
   value: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#ffffff',
+    color: '#f2e8cf',
     marginTop: 4,
   },
   goal: {
     fontSize: 14,
-    color: '#a0a0b0',
+    color: '#ecf39e',
     marginTop: 2,
   },
 });
