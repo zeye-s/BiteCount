@@ -1,4 +1,3 @@
-import HomeHeader from '../Components/HomeHeader';
 import MacroGrid from '../Components/MacroGrid';
 import RecentMeals from '../Components/RecentMeals';
 import { getMeals, Meal } from '../storage/meals';
@@ -30,7 +29,6 @@ export default function HomeScreen() {
     <ScrollView style={globalStyles.container}>
       <Text style={globalStyles.title}>BiteCount</Text>
       
-      <HomeHeader />
       
       <MacroGrid meals={meals} />
       <CopyButton meals={meals} />
