@@ -7,12 +7,12 @@ type MacroGridProps = {
 };
 
 export default function MacroGrid({ meals }: MacroGridProps) {
-  const totals = meals.reduce(
-    (acc, meal) => ({
-      calories: acc.calories + meal.calories,
-      protein: acc.protein + meal.protein,
-      carbs: acc.carbs + meal.carbs,
-      fat: acc.fat + meal.fat,
+  const totals = meals.reduce((amount, meal) => ({
+
+      calories: amount.calories + meal.calories,
+      protein: amount.protein + meal.protein,
+      carbs: amount.carbs + meal.carbs,
+      fat: amount.fat + meal.fat,
     }),
     { calories: 0, protein: 0, carbs: 0, fat: 0 },
   );
@@ -23,25 +23,25 @@ export default function MacroGrid({ meals }: MacroGridProps) {
         label='Calories'
         value={`${totals.calories}`}
         goal='2,000'
-        color='#ff6b6b'
+        color = '#ff5252'
       />
       <MacroCard
         label='Protein'
         value={`${totals.protein}g`}
         goal='150g'
-        color='#4ecdc4'
+        color = '#0088ff'
       />
       <MacroCard
         label='Carbs'
         value={`${totals.carbs}g`}
         goal='250g'
-        color='#ffd93d'
+        color = '#ffaa00'
       />
       <MacroCard
         label='Fat'
         value={`${totals.fat}g`}
         goal='65g'
-        color='#6bcb77'
+        color = '#ffee00'
       />
     </View>
   );

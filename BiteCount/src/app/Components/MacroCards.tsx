@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import {colors} from '../../../styles/global'
 
 type MacroCardProps = {
   label: string;
@@ -24,25 +25,25 @@ export default function MacroCard({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#344e41',
+    backgroundColor: colors.header,
     borderRadius: 12,
     padding: 16,
-    width: '47%',
+    width: '45%',
     borderLeftWidth: 4,
   },
   label: {
     fontSize: 14,
-    color: '#ecf39e',
+    color: colors.textSecondary,
   },
   value: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#f2e8cf',
+    color: colors.text,
     marginTop: 4,
   },
   goal: {
     fontSize: 14,
-    color: '#ecf39e',
+    color: colors.textSecondary,
     marginTop: 2,
   },
 });
