@@ -6,7 +6,7 @@ import { useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
 import CopyButton from '../Components/Copy';
-
+import MicroGrid from '../Components/MicroGrid';
 
 
 
@@ -31,6 +31,7 @@ export default function HomeScreen() {
       
       
       <MacroGrid meals={meals} />
+      <MicroGrid meals={meals} />
       <CopyButton meals={meals} />
       <RecentMeals meals={meals} />
     </ScrollView>

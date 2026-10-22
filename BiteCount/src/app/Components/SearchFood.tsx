@@ -31,7 +31,6 @@ export default function Search(){
             const result = await fetch(`https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(searchQuery)}?&page_size=20&fields=code,product_name,nutriments`,
             {
                 headers: {
-                        // Open Food Facts requires a custom User-Agent header
                         'User-Agent': 'MyFoodApp/1.0 (ziyishen2010@gmail.com)',
                     },
             });
@@ -95,7 +94,7 @@ export default function Search(){
                         <Text style={styles.itemName}>Protein: {item.nutriments?.['proteins_100g'] || 'N/A'}g</Text>
                         <Text style={styles.itemName}>Fat: {item.nutriments?.['fat_100g'] || 'N/A'}g</Text>
                         <Text style={styles.itemName}>Sugar: {item.nutriments?.['sugars_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Sodium: {item.nutriments?.['sodium_100g'] || 'N/A'}g</Text>
+                        <Text style={styles.itemName}>Sodium: {item.nutriments?.['sodium_100g'] || 'N/A'} g</Text>
                         <Text style={styles.itemName}>Potassium: {item.nutriments?.['potassium_100g'] || 'N/A'}g</Text>
                         <Text style={styles.itemName}>Iron: {item.nutriments?.['iron_100g'] || 'N/A'}g</Text>
                         <Text style = {styles.itemName}>Information provided by Open Food Facts API</Text>
