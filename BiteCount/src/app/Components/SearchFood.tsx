@@ -1,12 +1,12 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, FlatList } from 'react-native';
-import {useState} from 'react';
-import {colors} from '../../../styles/global';
 import { Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
+import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { colors } from '../../../styles/global';
 
 interface Product {
     code?: string;
     product_name?: string;
-    nutriments?: {
+    nutrients?: {
         'energy-kcal_100g'?: number;
         'carbohydrates_100g'?: number;
         'proteins_100g'?: number;
@@ -56,6 +56,15 @@ export default function Search(){
         }
     }
 
+    const Conversion = async(product : Product) => {
+        const nutrients = product.nutrients || {}
+        const unitConversion = {
+            sodium: Math.round((nutrients['sodium_100g'] || 0) * 1000),
+            iron: Math.round((nutrients['iron_100g'] || 0) * 1000) ,
+            potassium: Math.round((nutrients['potassium_100g'] || 0) * 1000)
+        } 
+    }
+
    return (
         <View style={styles.container}>
             <Text style={styles.title}>Search Food</Text>
@@ -71,7 +80,7 @@ export default function Search(){
                 />
             </View>
             <View style = {styles.searchButton}>
-                <TouchableOpacity  onPress={searchRecipe}>
+                <TouchableOpacity  onPress= {searchRecipe}{...Conversion}>
                     <Text style={styles.text}>{recipeFound ? 'Searching...' : 'Search'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {{marginRight:10,}}>
@@ -89,14 +98,14 @@ export default function Search(){
                 renderItem={({ item }) => (
                     <View style={styles.card}>
                         <Text style={styles.productName}>{(item.product_name || 'Unknown Food') + ' Per 100g'}</Text>
-                        <Text style={styles.itemName}>Calories: {item.nutriments?.['energy-kcal_100g'] || 'N/A'} kcal</Text>
-                        <Text style={styles.itemName}>Carbs: {item.nutriments?.['carbohydrates_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Protein: {item.nutriments?.['proteins_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Fat: {item.nutriments?.['fat_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Sugar: {item.nutriments?.['sugars_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Sodium: {item.nutriments?.['sodium_100g'] || 'N/A'} g</Text>
-                        <Text style={styles.itemName}>Potassium: {item.nutriments?.['potassium_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Iron: {item.nutriments?.['iron_100g'] || 'N/A'}g</Text>
+                        <Text style={styles.itemName}>Calories: {item.nutrients?.['energy-kcal_100g'] || 'N/A'} kcal</Text>
+                        <Text style={styles.itemName}>Carbs: {item.nutrients?.['carbohydrates_100g'] || 'N/A'}g</Text>
+                        <Text style={styles.itemName}>Protein: {item.nutrients?.['proteins_100g'] || 'N/A'}g</Text>
+                        <Text style={styles.itemName}>Fat: {item.nutrients?.['fat_100g'] || 'N/A'}g</Text>
+                        <Text style={styles.itemName}>Sugar: {item.nutrients?.['sugars_100g'] || 'N/A'}g</Text>
+                        <Text style={styles.itemName}>Sodium: {Math.round((item.nutrients?.['sodium_100g'] || 0) * 1000)} g</Text>
+                        <Text style={styles.itemName}>Potassium: {Math.round((item.nutrients?.['potassium_100g'] || 0) * 1000)}mg</Text>
+                        <Text style={styles.itemName}>Iron: {Math.round((item.nutrients?.['iron_100g'] || 0) * 1000)}mg</Text>
                         <Text style = {styles.itemName}>Information provided by Open Food Facts API</Text>
                     </View>
                 )}

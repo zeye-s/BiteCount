@@ -6,13 +6,13 @@ type MicroGridProps = {
     meals: Meal[];
 };
 
-export default function MicroGrid({ meals }: MicroGridProps) {
+export default function MicroGrid({meals}:MicroGridProps) {
   const totals = meals.reduce((amount, meal) => ({
 
-      sugar: amount.sugar + meal.sugar,
-      sodium: amount.sodium + meal.sodium,
-      iron: amount.iron + meal.iron,
-      potassium: amount.potassium + meal.potassium,
+      sugar: amount.sugar + (meal.sugar ?? 0),
+      sodium: amount.sodium + (meal.sodium ?? 0),
+      iron: amount.iron + (meal.iron ?? 0),
+      potassium: amount.potassium + (meal.potassium ?? 0),
     }),
     { sugar: 0, sodium: 0, iron: 0, potassium: 0 },
   );
@@ -22,25 +22,25 @@ export default function MicroGrid({ meals }: MicroGridProps) {
           label='Sugar'
           value={`${totals.sugar}`}
           goal='50g'
-          color = '#ff5252'
+          color = '#eb6434'
         />
         <MicroCard
           label='Sodium'
           value={`${totals.sodium}g`}
           goal='< 2g'
-          color = '#0088ff'
+          color = '#34ebab'
         />
         <MicroCard
           label='Iron'
           value={`${totals.iron}g`}
           goal='250g'
-          color = '#ffaa00'
+          color = '#7d05fc'
         />
         <MicroCard
           label='Potassium'
           value={`${totals.potassium}g`}
           goal='65g'
-          color = '#ffee00'
+          color = '#fc05d7'
         />
       </View>
     );
