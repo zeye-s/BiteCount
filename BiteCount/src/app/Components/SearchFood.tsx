@@ -56,7 +56,7 @@ export default function Search(){
         }
     }
 
-    const Conversion = async(product : Product) => {
+    const handleConversion = async(product : Product) => {
         const nutrients = product.nutriments || {}
         const unitConversion = {
             sodium: Math.round((nutrients['sodium_100g'] || 0) * 1000),
@@ -80,7 +80,7 @@ export default function Search(){
                 />
             </View>
             <View style = {styles.searchButton}>
-                <TouchableOpacity  onPress= {searchRecipe}{...Conversion}>
+                <TouchableOpacity  onPress= {searchRecipe}{...handleConversion}>
                     <Text style={styles.text}>{recipeFound ? 'Searching...' : 'Search'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {{marginRight:10,}}>

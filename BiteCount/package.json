@@ -8,6 +8,8 @@
     "@januaryai/react-native": "^0.3.0",
     "@react-native-async-storage/async-storage": "2.2.0",
     "expo": "~57.0.27",
+    "expo-barcode-scanner": "^13.0.1",
+    "expo-camera": "~57.0.6",
     "expo-clipboard": "~57.0.2",
     "expo-constants": "~57.0.21",
     "expo-device": "~57.0.2",
