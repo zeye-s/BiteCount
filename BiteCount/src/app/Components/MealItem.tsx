@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text } from 'react-native';
+import { colors } from '../../../styles/global';
 
 type MealItemProps = {
   name: string;
@@ -24,18 +25,22 @@ export default function MealItem({
   potassium,
 }: MealItemProps) {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.name}>{name}</Text>
-      <Text style={styles.macros}>
-        {calories} cal , {protein}g P , {carbs}g C , {fat}g F
+      <Text style={styles.nutrients}>
+        {calories} Calories, {protein}g Protein, {carbs}g Carbs , {fat}g Fat, 
       </Text>
-    </View>
+      <Text style = {styles.nutrients}>
+        {sodium}mg Sod, {iron}mg Iron, {potassium}mg Potass, {sugar}g Sug,
+      </Text>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#344e41',
+    
+    backgroundColor: colors.header,
     borderRadius: 10,
     padding: 16,
     marginBottom: 10,
@@ -43,11 +48,13 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#f2e8cf',
+    color: colors.text,
   },
-  macros: {
+  nutrients: {
+    
     fontSize: 13,
-    color: '#ecf39e',
+    color: colors.textSecondary,
     marginTop: 4,
+    
   },
 });

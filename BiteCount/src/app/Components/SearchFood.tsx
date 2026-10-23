@@ -6,7 +6,7 @@ import { colors } from '../../../styles/global';
 interface Product {
     code?: string;
     product_name?: string;
-    nutrients?: {
+    nutriments?: {
         'energy-kcal_100g'?: number;
         'carbohydrates_100g'?: number;
         'proteins_100g'?: number;
@@ -57,7 +57,7 @@ export default function Search(){
     }
 
     const Conversion = async(product : Product) => {
-        const nutrients = product.nutrients || {}
+        const nutrients = product.nutriments || {}
         const unitConversion = {
             sodium: Math.round((nutrients['sodium_100g'] || 0) * 1000),
             iron: Math.round((nutrients['iron_100g'] || 0) * 1000) ,
@@ -87,7 +87,7 @@ export default function Search(){
                     <Ionicons name = "camera-outline" size = {20} color={colors.text}/>
                 </TouchableOpacity>
             </View>
-
+            
             {/* Results List */}
             <FlatList<Product>
                 data={recipe}
@@ -96,16 +96,17 @@ export default function Search(){
                 keyboardShouldPersistTaps="handled"
                 style={styles.results}
                 renderItem={({ item }) => (
+                    
                     <View style={styles.card}>
                         <Text style={styles.productName}>{(item.product_name || 'Unknown Food') + ' Per 100g'}</Text>
-                        <Text style={styles.itemName}>Calories: {item.nutrients?.['energy-kcal_100g'] || 'N/A'} kcal</Text>
-                        <Text style={styles.itemName}>Carbs: {item.nutrients?.['carbohydrates_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Protein: {item.nutrients?.['proteins_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Fat: {item.nutrients?.['fat_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Sugar: {item.nutrients?.['sugars_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Sodium: {Math.round((item.nutrients?.['sodium_100g'] || 0) * 1000)} g</Text>
-                        <Text style={styles.itemName}>Potassium: {Math.round((item.nutrients?.['potassium_100g'] || 0) * 1000)}mg</Text>
-                        <Text style={styles.itemName}>Iron: {Math.round((item.nutrients?.['iron_100g'] || 0) * 1000)}mg</Text>
+                        <Text style={styles.itemName}>Calories: {item.nutriments?.['energy-kcal_100g'] || 'N/A'} kcal</Text>
+                        <Text style={styles.itemName}>Carbs: {item.nutriments?.['carbohydrates_100g'] || 'N/A'}g</Text>
+                        <Text style={styles.itemName}>Protein: {item.nutriments?.['proteins_100g'] || 'N/A'}g</Text>
+                        <Text style={styles.itemName}>Fat: {item.nutriments?.['fat_100g'] || 'N/A'}g</Text>
+                        <Text style={styles.itemName}>Sugar: {item.nutriments?.['sugars_100g'] || 'N/A'}g</Text>
+                        <Text style={styles.itemName}>Sodium: {Math.round((item.nutriments?.['sodium_100g'] || 0) * 1000)} mg</Text>
+                        <Text style={styles.itemName}>Potassium: {Math.round((item.nutriments?.['potassium_100g'] || 0) * 1000)}mg</Text>
+                        <Text style={styles.itemName}>Iron: {Math.round((item.nutriments?.['iron_100g'] || 0) * 1000)}mg</Text>
                         <Text style = {styles.itemName}>Information provided by Open Food Facts API</Text>
                     </View>
                 )}
