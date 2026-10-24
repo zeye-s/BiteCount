@@ -42,11 +42,11 @@ export default function AddMealScreen() {
   const handleSelectProduct = (product: Product) => {
       const nutrients = product.nutriments || {}
       setName(product.product_name || '');
-      setCalories(String(Number(calories) + (Math.round(100 * (nutrients['energy-kcal_100g'] || 0) / 100))));
-      setCarbs(String(Number(carbs) + (Math.round(100 * (nutrients['carbohydrates_100g'] || 0) / 100))));
-      setFat(String(Number(fat) + (Math.round(100 * (nutrients['fat_100g'] || 0) / 100))));
-      setProtein(String(Number(protein) + (Math.round(100 * (nutrients['proteins_100g'] || 0) / 100))));
-      setSugar(String(Number(sugar) + (Math.round( 100 *(nutrients['sugars_100g'] || 0) / 100))));
+      setCalories(String(Number(calories) + (Math.round (nutrients['energy-kcal_100g'] || 0))));
+      setCarbs(String(Number(carbs) + (Math.round (nutrients['carbohydrates_100g'] || 0) )));
+      setFat(String(Number(fat) + (Math.round (nutrients['fat_100g'] || 0) )));
+      setProtein(String(Number(protein) + (Math.round (nutrients['proteins_100g'] || 0))));
+      setSugar(String(Number(sugar) + (Math.round(nutrients['sugars_100g'] || 0))));
 
       setPotassium(String(Number(potassium) + (Math.round(nutrients['potassium_100g'] || 0) * 1000)));
       setSodium(String(Number(sodium) + (Math.round(nutrients['sodium_100g'] || 0) * 1000)));
