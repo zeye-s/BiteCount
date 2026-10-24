@@ -33,8 +33,8 @@ export default function MealItem({
         {calories} Calories, {protein}g Protein, {carbs}g Carbs , {fat}g Fat, 
       </Text>
       <Text style = {styles.nutrients}>
-        {sodium}mg Sod, {iron}mg Iron, {potassium}mg Potass, {sugar}g Sug,
-      </Text>
+        {sugar}g Sug, {sodium}mg S, {iron}mg I, {potassium}mg P, 
+      </Text> 
     </ScrollView>
   );
 }
