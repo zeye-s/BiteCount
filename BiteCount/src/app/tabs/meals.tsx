@@ -22,7 +22,7 @@ export default function MealsScreen() {
   return (
     <ScrollView style={globalStyles.container}>
       <Text style={globalStyles.title}>All Meals</Text>
-      <View style={{ marginTop: 30 }}>
+      <View style={{ marginTop: 30 , paddingBottom: 80}}>
         {meals.length === 0 ? (
           <Text style={globalStyles.empty}>No meals logged yet.</Text>
         ) : (
@@ -38,6 +38,7 @@ export default function MealsScreen() {
               potassium = {meal.potassium}
               iron = {meal.iron}
               sugar = {meal.sugar}
+              createdAt={meal.createdAt}
             />
           ))
         )}

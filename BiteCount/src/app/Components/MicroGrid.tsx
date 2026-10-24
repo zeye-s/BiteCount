@@ -20,7 +20,7 @@ export default function MicroGrid({meals}:MicroGridProps) {
   <View style={styles.grid}>
         <MicroCard
           label='Sugar'
-          value={`${totals.sugar}`}
+          value={`${totals.sugar}g`}
           goal='50g'
           color = '#eb6434'
         />

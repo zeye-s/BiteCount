@@ -19,16 +19,20 @@ interface Product {
     };
 }
 
-export default function Search(){
+type SearchProps = {
+    onSelectProduct: (product: Product) => void;
+}
+
+export default function Search({onSelectProduct}:SearchProps){
     const [recipeFound, setRecipeFound] = useState(false);
     const [query, setQuery] = useState('');
     const[recipe, setRecipe] = useState<Product[]>([]);
     const[scanning, setScanning] = useState(false);
     
-    const searchRecipe = async() =>{
+    const searchRecipe = async(searchTerm = query) =>{
         try{
             setRecipeFound(true);
-            const searchQuery = query.trim() === '' ? 3017624010701 : query.trim()
+            const searchQuery = searchTerm.trim() === '' ? 3017624010701 : searchTerm.trim()
             const result = await fetch(`https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(searchQuery)}?&page_size=20&fields=code,product_name,nutriments`,
             {
                 headers: {
@@ -53,34 +57,28 @@ export default function Search(){
         }
         finally{
             setRecipeFound(false);
-            setQuery('');
         }
-    }
-
-    const handleConversion = async(product : Product) => {
-        const nutrients = product.nutriments || {}
-        const unitConversion = {
-            sodium: Math.round((nutrients['sodium_100g'] || 0) * 1000),
-            iron: Math.round((nutrients['iron_100g'] || 0) * 1000) ,
-            potassium: Math.round((nutrients['potassium_100g'] || 0) * 1000)
-        } 
     }
 
     const handleBarcodeScanned = (data: string) => {
         setQuery(data);
-        searchRecipe();
+        setScanning(false);
+        void searchRecipe(data);
+        
+        
     }
-    if(scanning){
-        <View>
-            <Scan onScan = {handleBarcodeScanned}></Scan>
-            <View>
-                <button onClick={() => setScanning(false)}></button>
-            </View>
-        </View>
-    }
-    if(!scanning){
+if(scanning){
         return (
             <View style={styles.container}>
+                <Scan onScan={handleBarcodeScanned} onClose={() => setScanning(false)} />
+                   
+            </View>
+            
+        );
+    }
+
+    return (
+        <View style={styles.container}>
                 <Text style={styles.title}>Search Food</Text>
 
                 {/* Search Input and Button */}
@@ -94,7 +92,7 @@ export default function Search(){
                         />
                 </View>
                 <View style = {styles.searchButton}>
-                    <TouchableOpacity  onPress= {searchRecipe}{...handleConversion}>
+                    <TouchableOpacity onPress={() => void searchRecipe()}>
                         <Text style={styles.text}>{recipeFound ? 'Searching...' : 'Search'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity  onPress={() => setScanning(true)} style = {{marginRight:10,}}>
@@ -111,7 +109,7 @@ export default function Search(){
                     keyboardShouldPersistTaps="handled"
                     style={styles.results}
                     renderItem={({ item }) => (
-                            
+                        <TouchableOpacity onPress = {() => onSelectProduct(item)}>
                         <View style={styles.card}>
                             <Text style={styles.productName}>{(item.product_name || 'Unknown Food') + ' Per 100g'}</Text>
                             <Text style={styles.itemName}>Calories: {item.nutriments?.['energy-kcal_100g'] || 'N/A'} kcal</Text>
@@ -124,11 +122,12 @@ export default function Search(){
                             <Text style={styles.itemName}>Iron: {Math.round((item.nutriments?.['iron_100g'] || 0) * 1000)}mg</Text>
                             <Text style = {styles.itemName}>Information provided by Open Food Facts API</Text>
                         </View>
+                        </TouchableOpacity>
                     )}
                 />
-            </View>
-        );
-    }}
+        </View>
+    );
+}
 
 const styles = StyleSheet.create({
     container: {

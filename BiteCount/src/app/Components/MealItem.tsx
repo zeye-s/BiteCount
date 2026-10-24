@@ -11,6 +11,7 @@ type MealItemProps = {
   potassium: number;
   iron: number;
   sugar: number;
+  createdAt: string;
 };
 
 export default function MealItem({
@@ -23,10 +24,11 @@ export default function MealItem({
   iron,
   sugar,
   potassium,
+  createdAt,
 }: MealItemProps) {
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.name}>{name}</Text>
+      <Text style={styles.name}>{name}                                         {createdAt}</Text>
       <Text style={styles.nutrients}>
         {calories} Calories, {protein}g Protein, {carbs}g Carbs , {fat}g Fat, 
       </Text>
@@ -48,12 +50,12 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: '600',
-    color: colors.text,
+    color: colors.textSecondary,
   },
   nutrients: {
     
     fontSize: 13,
-    color: colors.textSecondary,
+    color: colors.text,
     marginTop: 4,
     
   },

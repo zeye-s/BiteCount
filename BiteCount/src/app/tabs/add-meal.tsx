@@ -1,17 +1,34 @@
-import { addMeal } from '../storage/meals';
-import { colors, globalStyles } from '../../../styles/global';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import {
   Alert,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  ScrollView,
 } from 'react-native';
-import Search from "../Components/SearchFood"
+import { colors, globalStyles } from '../../../styles/global';
+import Search from "../Components/SearchFood";
+import { addMeal } from '../storage/meals';
+
+interface Product{
+  code?: string;
+  product_name?: string;
+  nutriments?: {
+    'energy-kcal_100g'?: number;
+    'carbohydrates_100g'?: number;
+    'proteins_100g'?: number;
+    'fat_100g'?: number;
+    'sugars_100g'?: number;
+    'sodium_100g'?: number;
+    'potassium_100g'?: number;
+    'iron_100g'?: number;
+  }
+}
+
+
 
 export default function AddMealScreen() {
   const [name, setName] = useState('');
@@ -23,6 +40,20 @@ export default function AddMealScreen() {
   const [potassium, setPotassium] = useState('');
   const [sugar, setSugar] = useState('');
   const [sodium, setSodium] = useState('');
+
+  const handleSelectProduct = (product: Product) => {
+      const nutrients = product.nutriments || {}
+      setName(product.product_name || '');
+      setCalories(String(nutrients['energy-kcal_100g'] || ''));
+      setCarbs(String(nutrients['carbohydrates_100g'] || ''));
+      setFat(String(nutrients['fat_100g'] || ''));
+      setSugar(String(nutrients['sugars_100g'] || ''));
+
+      setPotassium(String(Math.round(nutrients['potassium_100g'] || 0) * 1000));
+      setSodium(String(Math.round(nutrients['sodium_100g'] || 0) * 1000));
+      setIron(String(Math.round(nutrients['iron_100g'] || 0) * 1000));
+    }
+
 
   const handleAddMeal = async () => {
     if (!name || !calories) {
@@ -55,6 +86,10 @@ export default function AddMealScreen() {
     Alert.alert('Success', 'Meal added successfully!');
 
     router.replace('/tabs');
+
+    
+
+
   };
 
   return (
@@ -64,7 +99,7 @@ export default function AddMealScreen() {
       keyboardShouldPersistTaps='handled'
     >
       <Text style={globalStyles.title}>Add Meal</Text>
-      <Search></Search>
+      <Search onSelectProduct = {handleSelectProduct}></Search>
       <TextInput
         style={styles.input}
         placeholder='Meal name'

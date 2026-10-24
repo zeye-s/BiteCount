@@ -9,9 +9,9 @@ type RecentMealsProps = {
 
 export default function RecentMeals({ meals }: RecentMealsProps) {
   return (
-    <View style={{ marginTop: 30 }}>
+    <View style={{ marginTop: 30, paddingBottom: 80}}>
       <Text style={globalStyles.sectionTitle}>Recent Meals</Text>
-      {meals.length === 0 ? (
+      {meals.length === 0 && meals.length <= 5 ? (
         <Text style={globalStyles.empty}>No meals logged yet.</Text>
       ) : (
         meals
@@ -28,6 +28,7 @@ export default function RecentMeals({ meals }: RecentMealsProps) {
               potassium = {meal.potassium}
               iron = {meal.iron}
               sugar = {meal.sugar}
+              createdAt = {meal.createdAt}
             />
           ))
       )}

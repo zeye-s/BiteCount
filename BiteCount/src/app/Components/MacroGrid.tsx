@@ -49,8 +49,8 @@ export default function MacroGrid({ meals }: MacroGridProps) {
 
 const styles = StyleSheet.create({
   grid: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap',
-    gap: 12,
+    gap: 5,
   },
 });
