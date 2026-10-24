@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { colors } from '../../../styles/global';
+import Scan from './Scan';
 
 interface Product {
     code?: string;
@@ -22,7 +23,7 @@ export default function Search(){
     const [recipeFound, setRecipeFound] = useState(false);
     const [query, setQuery] = useState('');
     const[recipe, setRecipe] = useState<Product[]>([]);
-
+    const[scanning, setScanning] = useState(false);
     
     const searchRecipe = async() =>{
         try{
@@ -65,55 +66,69 @@ export default function Search(){
         } 
     }
 
-   return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Search Food</Text>
-
-            {/* Search Input and Button */}
+    const handleBarcodeScanned = (data: string) => {
+        setQuery(data);
+        searchRecipe();
+    }
+    if(scanning){
+        <View>
+            <Scan onScan = {handleBarcodeScanned}></Scan>
             <View>
-                <TextInput 
-                    style={styles.search}
-                    placeholder="Enter food Barcode(ex. 3017624010701)"
-                    placeholderTextColor={colors.textSecondary}
-                    value={query}
-                    onChangeText={setQuery}
+                <button onClick={() => setScanning(false)}></button>
+            </View>
+        </View>
+    }
+    if(!scanning){
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>Search Food</Text>
+
+                {/* Search Input and Button */}
+                <View>
+                    <TextInput 
+                        style={styles.search}
+                        placeholder="Enter food Barcode(ex. 3017624010701)"
+                        placeholderTextColor={colors.textSecondary}
+                        value={query}
+                        onChangeText={setQuery}
+                        />
+                </View>
+                <View style = {styles.searchButton}>
+                    <TouchableOpacity  onPress= {searchRecipe}{...handleConversion}>
+                        <Text style={styles.text}>{recipeFound ? 'Searching...' : 'Search'}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={() => setScanning(true)} style = {{marginRight:10,}}>
+                        <Ionicons name = "camera-outline" size = {20} color={colors.text}/>
+                    </TouchableOpacity>
+                        
+                </View>
+                    
+                {/* Results List */}
+                    <FlatList<Product>
+                    data={recipe}
+                    keyExtractor={(item, index) => item.code || index.toString()}
+                    nestedScrollEnabled
+                    keyboardShouldPersistTaps="handled"
+                    style={styles.results}
+                    renderItem={({ item }) => (
+                            
+                        <View style={styles.card}>
+                            <Text style={styles.productName}>{(item.product_name || 'Unknown Food') + ' Per 100g'}</Text>
+                            <Text style={styles.itemName}>Calories: {item.nutriments?.['energy-kcal_100g'] || 'N/A'} kcal</Text>
+                            <Text style={styles.itemName}>Carbs: {item.nutriments?.['carbohydrates_100g'] || 'N/A'}g</Text>
+                            <Text style={styles.itemName}>Protein: {item.nutriments?.['proteins_100g'] || 'N/A'}g</Text>
+                            <Text style={styles.itemName}>Fat: {item.nutriments?.['fat_100g'] || 'N/A'}g</Text>
+                            <Text style={styles.itemName}>Sugar: {item.nutriments?.['sugars_100g'] || 'N/A'}g</Text>
+                            <Text style={styles.itemName}>Sodium: {Math.round((item.nutriments?.['sodium_100g'] || 0) * 1000)} mg</Text>
+                            <Text style={styles.itemName}>Potassium: {Math.round((item.nutriments?.['potassium_100g'] || 0) * 1000)}mg</Text>
+                            <Text style={styles.itemName}>Iron: {Math.round((item.nutriments?.['iron_100g'] || 0) * 1000)}mg</Text>
+                            <Text style = {styles.itemName}>Information provided by Open Food Facts API</Text>
+                        </View>
+                    )}
                 />
             </View>
-            <View style = {styles.searchButton}>
-                <TouchableOpacity  onPress= {searchRecipe}{...handleConversion}>
-                    <Text style={styles.text}>{recipeFound ? 'Searching...' : 'Search'}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style = {{marginRight:10,}}>
-                    <Ionicons name = "camera-outline" size = {20} color={colors.text}/>
-                </TouchableOpacity>
-            </View>
-            
-            {/* Results List */}
-            <FlatList<Product>
-                data={recipe}
-                keyExtractor={(item, index) => item.code || index.toString()}
-                nestedScrollEnabled
-                keyboardShouldPersistTaps="handled"
-                style={styles.results}
-                renderItem={({ item }) => (
-                    
-                    <View style={styles.card}>
-                        <Text style={styles.productName}>{(item.product_name || 'Unknown Food') + ' Per 100g'}</Text>
-                        <Text style={styles.itemName}>Calories: {item.nutriments?.['energy-kcal_100g'] || 'N/A'} kcal</Text>
-                        <Text style={styles.itemName}>Carbs: {item.nutriments?.['carbohydrates_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Protein: {item.nutriments?.['proteins_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Fat: {item.nutriments?.['fat_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Sugar: {item.nutriments?.['sugars_100g'] || 'N/A'}g</Text>
-                        <Text style={styles.itemName}>Sodium: {Math.round((item.nutriments?.['sodium_100g'] || 0) * 1000)} mg</Text>
-                        <Text style={styles.itemName}>Potassium: {Math.round((item.nutriments?.['potassium_100g'] || 0) * 1000)}mg</Text>
-                        <Text style={styles.itemName}>Iron: {Math.round((item.nutriments?.['iron_100g'] || 0) * 1000)}mg</Text>
-                        <Text style = {styles.itemName}>Information provided by Open Food Facts API</Text>
-                    </View>
-                )}
-            />
-        </View>
-    );
-}
+        );
+    }}
 
 const styles = StyleSheet.create({
     container: {

@@ -24,7 +24,8 @@ export default function CopyButton({ meals }: CopyButtonProps) {
       { calories: 0, protein: 0, carbs: 0, fat: 0, sugar: 0, sodium: 0, iron: 0, potassium: 0 },
     );
 
-    const summary = `BiteCount Daily Summary\n\nCalories: ${totals.calories}\nProtein: ${totals.protein}g\nCarbs: ${totals.carbs}g\nFat: ${totals.fat}g\n\nMeals: ${meals.length} logged today`;
+    const summary = `BiteCount Daily Summary\n\nCalories: ${totals.calories}\nProtein: ${totals.protein}g\nCarbs: ${totals.carbs}g\nFat: ${totals.fat}g
+    \nSodium${totals.sodium} \nIron${totals.iron} \nPotassium${totals.potassium} \nSugar:${totals.sugar} \n\nMeals: ${meals.length} logged today`;
 
     await Clipboard.setStringAsync(summary);
   };
