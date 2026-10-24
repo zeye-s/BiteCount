@@ -112,14 +112,14 @@ if(scanning){
                         <TouchableOpacity onPress = {() => onSelectProduct(item)}>
                         <View style={styles.card}>
                             <Text style={styles.productName}>{(item.product_name || 'Unknown Food') + ' Per 100g'}</Text>
-                            <Text style={styles.itemName}>Calories: {item.nutriments?.['energy-kcal_100g'] || 'N/A'} kcal</Text>
-                            <Text style={styles.itemName}>Carbs: {item.nutriments?.['carbohydrates_100g'] || 'N/A'}g</Text>
-                            <Text style={styles.itemName}>Protein: {item.nutriments?.['proteins_100g'] || 'N/A'}g</Text>
-                            <Text style={styles.itemName}>Fat: {item.nutriments?.['fat_100g'] || 'N/A'}g</Text>
-                            <Text style={styles.itemName}>Sugar: {item.nutriments?.['sugars_100g'] || 'N/A'}g</Text>
-                            <Text style={styles.itemName}>Sodium: {Math.round((item.nutriments?.['sodium_100g'] || 0) * 1000)} mg</Text>
-                            <Text style={styles.itemName}>Potassium: {Math.round((item.nutriments?.['potassium_100g'] || 0) * 1000)}mg</Text>
-                            <Text style={styles.itemName}>Iron: {Math.round((item.nutriments?.['iron_100g'] || 0) * 1000)}mg</Text>
+                            <Text style={styles.itemName}>Calories: {Math.round((item.nutriments?.['energy-kcal_100g'] || 0))} kcal</Text>
+                            <Text style={styles.itemName}>Carbs: {Math.round((item.nutriments?.carbohydrates_100g || 0))}g</Text>
+                            <Text style={styles.itemName}>Protein: {Math.round((item.nutriments?.proteins_100g || 0))}g</Text>
+                            <Text style={styles.itemName}>Fat: {Math.round((item.nutriments?.fat_100g || 0))}g</Text>
+                            <Text style={styles.itemName}>Sugar: {Math.round((item.nutriments?.sugars_100g || 0))}g</Text>
+                            <Text style={styles.itemName}>Sodium: {Math.round((item.nutriments?.sodium_100g || 0) * 1000)} mg</Text>
+                            <Text style={styles.itemName}>Potassium: {Math.round((item.nutriments?.potassium_100g || 0) * 1000)}mg</Text>
+                            <Text style={styles.itemName}>Iron: {Math.round((item.nutriments?.iron_100g|| 0) * 1000)}mg</Text>
                             <Text style = {styles.itemName}>Information provided by Open Food Facts API</Text>
                         </View>
                         </TouchableOpacity>

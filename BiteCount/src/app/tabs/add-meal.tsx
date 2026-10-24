@@ -28,8 +28,6 @@ interface Product{
   }
 }
 
-
-
 export default function AddMealScreen() {
   const [name, setName] = useState('');
   const [calories, setCalories] = useState('');
@@ -44,14 +42,15 @@ export default function AddMealScreen() {
   const handleSelectProduct = (product: Product) => {
       const nutrients = product.nutriments || {}
       setName(product.product_name || '');
-      setCalories(String(nutrients['energy-kcal_100g'] || ''));
-      setCarbs(String(nutrients['carbohydrates_100g'] || ''));
-      setFat(String(nutrients['fat_100g'] || ''));
-      setSugar(String(nutrients['sugars_100g'] || ''));
+      setCalories(String(Number(calories) + (Math.round(100 * (nutrients['energy-kcal_100g'] || 0) / 100))));
+      setCarbs(String(Number(carbs) + (Math.round(100 * (nutrients['carbohydrates_100g'] || 0) / 100))));
+      setFat(String(Number(fat) + (Math.round(100 * (nutrients['fat_100g'] || 0) / 100))));
+      setProtein(String(Number(protein) + (Math.round(100 * (nutrients['proteins_100g'] || 0) / 100))));
+      setSugar(String(Number(sugar) + (Math.round( 100 *(nutrients['sugars_100g'] || 0) / 100))));
 
-      setPotassium(String(Math.round(nutrients['potassium_100g'] || 0) * 1000));
-      setSodium(String(Math.round(nutrients['sodium_100g'] || 0) * 1000));
-      setIron(String(Math.round(nutrients['iron_100g'] || 0) * 1000));
+      setPotassium(String(Number(potassium) + (Math.round(nutrients['potassium_100g'] || 0) * 1000)));
+      setSodium(String(Number(sodium) + (Math.round(nutrients['sodium_100g'] || 0) * 1000)));
+      setIron(String(Number(iron) + (Math.round(nutrients['iron_100g'] || 0) * 1000)));
     }
 
 
@@ -68,6 +67,7 @@ export default function AddMealScreen() {
       carbs: Number(carbs) || 0,
       fat: Number(fat) || 0,
       potassium: Number(potassium) || 0,
+
       sodium: Number(sodium) || 0,
       iron: Number(iron) || 0,
       sugar: Number(sugar) || 0,
@@ -86,10 +86,6 @@ export default function AddMealScreen() {
     Alert.alert('Success', 'Meal added successfully!');
 
     router.replace('/tabs');
-
-    
-
-
   };
 
   return (
