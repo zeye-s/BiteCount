@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {colors} from '../../../styles/global'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useTheme } from '../storage/ThemeContext';
 
 type MicroCardProps = {
   label: string;
@@ -16,12 +16,14 @@ export default function MicroCard({
     color,
     onPressed,
 }: MicroCardProps){
+    const { colors } = useTheme();
+
     return(
-        <TouchableOpacity onPress={onPressed} activeOpacity={0.8} style={[styles.card, { borderColor: color }]}>
-        <View style = {[styles.card, {borderColor: color}]}>
-            <Text style = {styles.label}>{label}</Text>
-            <Text style = {styles.value}>{value}/</Text>
-            <Text style = {styles.goal}>{goal}</Text>
+        <TouchableOpacity onPress={onPressed} style = {{width: '22%'}}>
+        <View style = {[styles.card, {borderColor: color, backgroundColor: colors.header}]}>
+            <Text style = {[styles.label, {color: colors.textSecondary}]}>{label}</Text>
+            <Text style = {[styles.value, {color: colors.text}]}>{value}/</Text>
+            <Text style = {[styles.goal, {color: colors.textSecondary}]}>{goal}</Text>
         </View>
         </TouchableOpacity>
     )
@@ -29,25 +31,23 @@ export default function MicroCard({
 
 const styles = StyleSheet.create({
     card: {
-        width:' 22%',
+        
+        height: 80,   
         padding: 10,
         borderRadius: 12,
         borderLeftWidth: 3,
-        backgroundColor: colors.header,
     },
     label: {
+        fontWeight:'bold',
         fontSize: 10,
-        color: colors.textSecondary,
     },
     value: {
         fontSize: 14,
         fontWeight: 'bold',
-        color: colors.text,
         marginTop: 4,
     },
     goal: {
         fontSize: 10,
-        color: colors.textSecondary,
         marginTop: 2,
 },
 })

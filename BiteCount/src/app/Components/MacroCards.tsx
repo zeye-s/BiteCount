@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TouchableOpacity, Touchable } from 'react-native';
-import { colors } from '../../../styles/global';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useTheme } from '../storage/ThemeContext';
 
 type MacroCardProps = {
   label: string;
@@ -16,11 +16,13 @@ export default function MacroCard({
   color,
   onPressed,
 }: MacroCardProps) {
+  const { colors } = useTheme();
+
   return (
-    <TouchableOpacity onPress={onPressed} activeOpacity={0.8} style={[styles.card, { borderColor: color }]}>
-    <View style={[styles.card, { borderLeftColor: color }]}>
-      <Text style={styles.label}>{label}</Text>
-      <Text style={styles.value}>{value} / <Text style = {styles.goal}>{goal}</Text></Text>
+    <TouchableOpacity onPress={onPressed} style={{width:'95%'}}>
+    <View style={[styles.card, { borderLeftColor: color, backgroundColor: colors.header }]}>
+      <Text style={[styles.label, { color: colors.textSecondary }]}>{label}</Text>
+      <Text style={[styles.value, { color: colors.text }]}>{value} / <Text style={[styles.goal, { color: colors.textSecondary }]}>{goal}</Text></Text>
     </View>
     </TouchableOpacity>
   );
@@ -28,27 +30,23 @@ export default function MacroCard({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.header,
     borderRadius: 12,
     padding: 5,
-    width: '95%',
     borderLeftWidth: 4,
   },
   label: {
     fontSize: 14,
-    color: colors.textSecondary,
+    fontWeight:'bold',
     marginLeft: 5,
   },
   value: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: colors.text,
     marginTop: 2,
     marginLeft: 5,
   },
   goal: {
     fontSize: 14,
-    color: colors.textSecondary,
     marginTop: 2,
     marginLeft: 5,
   },

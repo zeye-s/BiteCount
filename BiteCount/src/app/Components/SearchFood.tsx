@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { colors } from '../../../styles/global';
 import Scan from './Scan';
+import { useTheme } from '../storage/ThemeContext';
 
 interface Product {
     code?: string;
@@ -24,6 +24,7 @@ type SearchProps = {
 }
 
 export default function Search({onSelectProduct}:SearchProps){
+    const { colors } = useTheme();
     const [recipeFound, setRecipeFound] = useState(false);
     const [query, setQuery] = useState('');
     const[recipe, setRecipe] = useState<Product[]>([]);
@@ -90,7 +91,7 @@ export default function Search({onSelectProduct}:SearchProps){
 
 if(scanning){
         return (
-            <View style={styles.container}>
+            <View style={[styles.container, { backgroundColor: colors.background }]}>
                 <Scan onScan={handleBarcodeScanned} onClose={() => setScanning(false)} />
                    
             </View>
@@ -99,12 +100,12 @@ if(scanning){
     }
 
     return (
-        <View style={styles.container}>
-                <Text style={styles.title}>Search Food</Text>
+        <View style={[styles.container, { backgroundColor: colors.background }]}>
+                <Text style={[styles.title, { color: colors.text }]}>Search Food</Text>
 
                 <View>
                     <TextInput 
-                        style={styles.search}
+                        style={[styles.search, { backgroundColor: colors.header, color: colors.text }]}
                         placeholder="Enter food Barcode(ex. 3017624010701)"
                         placeholderTextColor={colors.textSecondary}
                         value={query}
@@ -112,9 +113,9 @@ if(scanning){
                         />
                 </View>
                
-                <View style = {styles.searchButton}>
+                <View style = {[styles.searchButton, { backgroundColor: colors.surface }]}>
                     <TouchableOpacity onPress={() => void searchRecipe()}>
-                        <Text style={styles.text}>{recipeFound ? 'Searching...' : 'Search'}</Text>
+                        <Text style={[styles.text, { color: colors.text }]}>{recipeFound ? 'Searching...' : 'Search'}</Text>
                     </TouchableOpacity>
                         <TouchableOpacity  onPress={() => setScanning(true)} style = {{marginRight:10, }}>
                             <Ionicons name = "camera-outline" size = {20} color={colors.text}/>
@@ -122,7 +123,7 @@ if(scanning){
                 </View>
                 <View>
                     <TextInput 
-                        style = {styles.userInput}
+                        style = {[styles.userInput, { backgroundColor: colors.header, color: colors.text }]}
                         placeholder = 'Enter the amount you ate (default is 100)'
                         placeholderTextColor={colors.textSecondary}
                         keyboardType='numeric'
@@ -139,17 +140,17 @@ if(scanning){
                     style={styles.results}
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress = {() => handleAmountEaten(item)}>
-                        <View style={styles.card}>
-                            <Text style={styles.productName}>{(item.product_name || 'Unknown Food') + ' Per 100g'}</Text>
-                            <Text style={styles.itemName}>Calories: {Math.round((item.nutriments?.['energy-kcal_100g'] || 0))} kcal</Text>
-                            <Text style={styles.itemName}>Carbs: {Math.round((item.nutriments?.carbohydrates_100g || 0))}g</Text>
-                            <Text style={styles.itemName}>Protein: {Math.round((item.nutriments?.proteins_100g || 0))}g</Text>
-                            <Text style={styles.itemName}>Fat: {Math.round((item.nutriments?.fat_100g || 0))}g</Text>
-                            <Text style={styles.itemName}>Sugar: {Math.round((item.nutriments?.sugars_100g || 0))}g</Text>
-                            <Text style={styles.itemName}>Sodium: {Math.round(1000 * (item.nutriments?.sodium_100g || 0))} mg</Text>
-                            <Text style={styles.itemName}>Potassium: {Math.round(1000 * (item.nutriments?.potassium_100g || 0))}mg</Text>
-                            <Text style={styles.itemName}>Iron: {Math.round(1000 * (item.nutriments?.iron_100g|| 0) )}mg</Text>
-                            <Text style = {styles.itemName}>Information provided by Open Food Facts API</Text>
+                        <View style={[styles.card, { backgroundColor: colors.header }]}>
+                            <Text style={[styles.productName, { color: colors.text }]}>{(item.product_name || 'Unknown Food') + ' Per 100g'}</Text>
+                            <Text style={[styles.itemName, { color: colors.textSecondary }]}>Calories: {Math.round((item.nutriments?.['energy-kcal_100g'] || 0))} kcal</Text>
+                            <Text style={[styles.itemName, { color: colors.textSecondary }]}>Carbs: {Math.round((item.nutriments?.carbohydrates_100g || 0))}g</Text>
+                            <Text style={[styles.itemName, { color: colors.textSecondary }]}>Protein: {Math.round((item.nutriments?.proteins_100g || 0))}g</Text>
+                            <Text style={[styles.itemName, { color: colors.textSecondary }]}>Fat: {Math.round((item.nutriments?.fat_100g || 0))}g</Text>
+                            <Text style={[styles.itemName, { color: colors.textSecondary }]}>Sugar: {Math.round((item.nutriments?.sugars_100g || 0))}g</Text>
+                            <Text style={[styles.itemName, { color: colors.textSecondary }]}>Sodium: {Math.round(1000 * (item.nutriments?.sodium_100g || 0))} mg</Text>
+                            <Text style={[styles.itemName, { color: colors.textSecondary }]}>Potassium: {Math.round(1000 * (item.nutriments?.potassium_100g || 0))}mg</Text>
+                            <Text style={[styles.itemName, { color: colors.textSecondary }]}>Iron: {Math.round(1000 * (item.nutriments?.iron_100g|| 0) )}mg</Text>
+                            <Text style = {[styles.itemName, { color: colors.textSecondary }]}>Information provided by Open Food Facts API</Text>
                         </View>
                         </TouchableOpacity>
                     )}
@@ -160,15 +161,12 @@ if(scanning){
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.background,
         paddingTop: 20,
         paddingHorizontal: 20,
     },
     userInput:{
-        backgroundColor: colors.header,
         marginBottom: 16,
         borderRadius: 10,
-        color: colors.text,
         paddingLeft: 10,
     },
     results: {
@@ -178,12 +176,9 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: colors.text,
      },
     search: {
-        backgroundColor: colors.header,
         borderRadius: 10,
-        color: colors.text,
         padding: 10,
         marginBottom: 10,
     },
@@ -192,17 +187,14 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         width:'50%',
-        backgroundColor: colors.surface,
         borderRadius: 15,
         padding: 10,
         marginBottom: 15,
     },
     text: {
-        color: colors.text,
         marginLeft:10,
     },
     card: {
-        backgroundColor: colors.header,
         padding: 12,
         borderRadius: 8,
         marginBottom: 10,
@@ -211,12 +203,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
         marginBottom: 4,
-        color: colors.text,
     },
 
     itemName:{
         fontSize: 16,
         marginBottom: 4,
-        color: colors.textSecondary,
     }
 });

@@ -9,9 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { colors, globalStyles } from '../../../styles/global';
+import { globalStyles } from '../../../styles/global';
 import Search from "../Components/SearchFood";
 import { addMeal } from '../storage/meals';
+import { useTheme } from '../storage/ThemeContext';
 
 interface Product{
   code?: string;
@@ -29,6 +30,8 @@ interface Product{
 }
 
 export default function AddMealScreen() {
+  const { colors } = useTheme();
+  const themedInputStyle = { backgroundColor: colors.surface, color: colors.text };
   const [name, setName] = useState('');
   const [calories, setCalories] = useState('');
   const [protein, setProtein] = useState('');
@@ -38,6 +41,7 @@ export default function AddMealScreen() {
   const [potassium, setPotassium] = useState('');
   const [sugar, setSugar] = useState('');
   const [sodium, setSodium] = useState('');
+
 
   const handleSelectProduct = (product: Product) => {
       const nutrients = product.nutriments || {}
@@ -89,22 +93,22 @@ export default function AddMealScreen() {
   };
   return (
     <ScrollView
-      style={globalStyles.container}
+      style={[globalStyles.container, { backgroundColor: colors.background }]}
       contentContainerStyle={styles.content}
       keyboardShouldPersistTaps='handled'
     >
-      <Text style={globalStyles.title}>Add Meal</Text>
+      <Text style={[globalStyles.title, { color: colors.text }]}>Add Meal</Text>
       <Search onSelectProduct = {handleSelectProduct}></Search>
       <TextInput
-        style={[styles.input, {marginTop:16}]}
+        style={[styles.input, themedInputStyle, { marginTop: 16 }]}
         placeholder='Meal name'
         placeholderTextColor={colors.text}
         value={name}
         onChangeText={setName}
       />
-      <Text style = {[styles.labelText, {marginTop: 10}]}>Calories</Text>
+      <Text style = {[styles.labelText, { color: colors.textSecondary, marginTop: 10 }]}>Calories</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, themedInputStyle]}
         placeholder='(kcal)'
         placeholderTextColor={colors.text}
         keyboardType='numeric'
@@ -112,13 +116,13 @@ export default function AddMealScreen() {
         onChangeText={setCalories}
       />
       <View style={styles.labelRow}>
-        <Text style={styles.labelText}>Protein</Text>
-        <Text style={styles.labelText}>Carbs</Text>
-        <Text style={styles.labelText}>Fat</Text>
+        <Text style={[styles.labelText, { color: colors.textSecondary }]}>Protein</Text>
+        <Text style={[styles.labelText, { color: colors.textSecondary }]}>Carbs</Text>
+        <Text style={[styles.labelText, { color: colors.textSecondary }]}>Fat</Text>
       </View>
       <View style={styles.row}>
         <TextInput
-          style={[styles.input, styles.rowInput]}
+          style={[styles.input, styles.rowInput, themedInputStyle]}
           placeholder='(g)'
           placeholderTextColor={colors.text}
           keyboardType='numeric'
@@ -126,7 +130,7 @@ export default function AddMealScreen() {
           onChangeText={setProtein}
         />
         <TextInput
-          style={[styles.input, styles.rowInput]}
+          style={[styles.input, styles.rowInput, themedInputStyle]}
           placeholder='(g)'
           placeholderTextColor={colors.text}
           keyboardType='numeric'
@@ -134,7 +138,7 @@ export default function AddMealScreen() {
           onChangeText={setCarbs}
         />
         <TextInput
-          style={[styles.input, styles.rowInput]}
+          style={[styles.input, styles.rowInput, themedInputStyle]}
           placeholder='(g)'
           placeholderTextColor={colors.text}
           keyboardType='numeric'
@@ -144,16 +148,16 @@ export default function AddMealScreen() {
       </View>
 
       <View style={styles.labelRow}>
-        <Text style={styles.labelText}>Sugar</Text>
-        <Text style={styles.labelText}>Sodium</Text>
-        <Text style={styles.labelText}>Potassium</Text>
-        <Text style={styles.labelText}>Iron</Text>
+        <Text style={[styles.labelText, { color: colors.textSecondary }]}>Sugar</Text>
+        <Text style={[styles.labelText, { color: colors.textSecondary }]}>Sodium</Text>
+        <Text style={[styles.labelText, { color: colors.textSecondary }]}>Potassium</Text>
+        <Text style={[styles.labelText, { color: colors.textSecondary }]}>Iron</Text>
       </View>
 
 
        <View style={styles.row}>
         <TextInput
-          style={[styles.input, styles.rowInput]}
+          style={[styles.input, styles.rowInput, themedInputStyle]}
           placeholder=' (g)'
           placeholderTextColor={colors.text}
           keyboardType='numeric'
@@ -161,7 +165,7 @@ export default function AddMealScreen() {
           onChangeText={setSugar}
         />
         <TextInput
-          style={[styles.input, styles.rowInput]}
+          style={[styles.input, styles.rowInput, themedInputStyle]}
           placeholder='(mg)'
           placeholderTextColor={colors.text}
           keyboardType='numeric'
@@ -169,7 +173,7 @@ export default function AddMealScreen() {
           onChangeText={setSodium}
         />
         <TextInput
-          style={[styles.input, styles.rowInput]}
+          style={[styles.input, styles.rowInput, themedInputStyle]}
           placeholder=' (mg)'
           placeholderTextColor={colors.text}
           keyboardType='numeric'
@@ -177,7 +181,7 @@ export default function AddMealScreen() {
           onChangeText={setPotassium}
         />
         <TextInput
-          style={[styles.input, styles.rowInput]}
+          style={[styles.input, styles.rowInput, themedInputStyle]}
           placeholder=' (mg)'
           placeholderTextColor={colors.text}
           keyboardType='numeric'
@@ -186,8 +190,8 @@ export default function AddMealScreen() {
         />
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleAddMeal}>
-        <Text style={styles.buttonText}>Add Meal</Text>
+      <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleAddMeal}>
+        <Text style={[styles.buttonText, { color: colors.header }]}>Add Meal</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -201,12 +205,9 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 12,
     fontWeight: 'bold',
-    color: colors.textSecondary,
     marginBottom: 5,
   },
   input: {  
-    backgroundColor: colors.surface,
-    color: colors.text,
     padding: 16,
     borderRadius: 10,
     fontSize: 14,
@@ -225,14 +226,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    backgroundColor: colors.primary,
     padding: 16,
     borderRadius: 10,
     alignItems: 'center',
     marginTop: 24,
   },
   buttonText: {
-    color: colors.header,
     fontSize: 16,
     fontWeight: 'bold',
   },

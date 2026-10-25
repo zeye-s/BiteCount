@@ -8,11 +8,13 @@ import {
   View,
   StyleSheet,
   Alert } from 'react-native';
-import { globalStyles,colors } from '../../../styles/global';
+import { globalStyles } from '../../../styles/global';
 import MealItem from '../Components/MealItem';
 import { getMeals, Meal } from '../storage/meals';
+import { useTheme } from '../storage/ThemeContext';
 
 export default function MealsScreen() {
+  const { colors } = useTheme();
   const [meals, setMeals] = useState<Meal[]>([]);
   const [confirm, setConfirm] = useState(false);
 
@@ -58,14 +60,14 @@ export default function MealsScreen() {
 
 
   return (
-    <ScrollView style={globalStyles.container}>
-      <Text style={globalStyles.title}>All Meals</Text>
+    <ScrollView style={[globalStyles.container, { backgroundColor: colors.background }]}>
+      <Text style={[globalStyles.title, { color: colors.text }]}>All Meals</Text>
       <TouchableOpacity style = {{marginTop: 5}} onPress = {() => handleConfirm()}>
-        <Text style = {styles.button}>Delete All Meals</Text>
+        <Text style={[styles.button, { color: colors.alert, backgroundColor: colors.header }]}>Delete All Meals</Text>
       </TouchableOpacity>
       <View style={{ marginTop: 10 , paddingBottom: 80}}>
         {meals.length === 0 ? (
-          <Text style={globalStyles.empty}>No meals logged yet.</Text>
+          <Text style={[globalStyles.empty, { color: colors.textSecondary }]}>No meals logged yet.</Text>
         ) : (
           meals.map((meal) => (
             <MealItem
@@ -91,8 +93,6 @@ export default function MealsScreen() {
 const styles = StyleSheet.create({
   button:{
     padding:12,
-    color:colors.alert,
-    backgroundColor: colors.header,
     width: '40%',
     borderRadius: 12,
   }

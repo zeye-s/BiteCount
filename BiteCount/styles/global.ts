@@ -1,13 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 export const colors = {
-  background: '#588157',
-  header: '#344e41',
-  surface: '#31572c',
-  primary: '#4fc3f7',
-  text: '#f2e8cf',
-  textSecondary: '#ecf39e',
-  alert: '#ff5252',
+  background: '#0D1F17',     // Deep dark forest background for ultra-high contrast
+  header: '#16422e',         // Rich dark green for card backgrounds
+  surface: '#254D3A',        // Elevated green surface for inputs and containers
+  primary: '#00FF9D',        // Glowing electric mint for main action buttons & highlights
+  text: '#FFFFFF',           // Bright crisp white for primary headers and values
+  textSecondary: '#A3C9B8',  // Soft pastel sage for secondary labels and units
+  alert: '#FF4D6D',
 };
 
 export const globalStyles = StyleSheet.create({

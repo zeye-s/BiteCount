@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { colors } from '../../../styles/global';
+import { useTheme } from '../storage/ThemeContext';
 import { Meal } from '../storage/meals';
 
 type CopyButtonProps = {
@@ -9,6 +9,8 @@ type CopyButtonProps = {
 };
 
 export default function CopyButton({ meals }: CopyButtonProps) {
+  const { colors } = useTheme();
+
   const handleCopy = async () => {
     const totals = meals.reduce(
       (amount, meal) => ({
@@ -24,8 +26,8 @@ export default function CopyButton({ meals }: CopyButtonProps) {
       { calories: 0, protein: 0, carbs: 0, fat: 0, sugar: 0, sodium: 0, iron: 0, potassium: 0 },
     );
 
-    const summary = `BiteCount Daily Summary\n\nCalories: ${totals.calories}\nProtein: ${totals.protein}g\nCarbs: ${totals.carbs}g\nFat: ${totals.fat}g
-    \nSodium${totals.sodium} \nIron${totals.iron} \nPotassium${totals.potassium} \nSugar:${totals.sugar} \n\nMeals: ${meals.length} logged today`;
+    const summary = `BiteCount Daily Summary\n\nCalories: ${totals.calories}kcal \nProtein: ${totals.protein}g \nCarbs: ${totals.carbs}g \nFat: ${totals.fat}g
+    \nSodium: ${totals.sodium}mg \nIron: ${totals.iron}mg \nPotassium: ${totals.potassium}mg \nSugar: ${totals.sugar}g \n\nMeals: ${meals.length} logged today`;
 
     await Clipboard.setStringAsync(summary);
   };
@@ -33,7 +35,7 @@ export default function CopyButton({ meals }: CopyButtonProps) {
   return (
     <TouchableOpacity style={styles.button} onPress={handleCopy}>
       <Ionicons name='copy-outline' size={18} color={colors.primary} />
-      <Text style={styles.text}>Copy Summary</Text>
+      <Text style={[styles.text, { color: colors.primary }]}>Copy Summary</Text>
     </TouchableOpacity>
   );
 }
@@ -46,7 +48,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   text: {
-    color: colors.primary,
     fontSize: 14,
   },
 });

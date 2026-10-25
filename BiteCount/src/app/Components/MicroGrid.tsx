@@ -54,28 +54,28 @@ export default function MicroGrid({meals}:MicroGridProps) {
   <View style={styles.grid}>
         <MicroCard
           label='Sugar'
-          value={`${totals.sugar}g`}
+          value={`${totals.sugar}`}
           goal={`${sugarGoal}g`}
           color = '#eb6434'
           onPressed={() => setActiveModal('sugar')}
         />
         <MicroCard
           label='Sodium'
-          value={`${totals.sodium}mg`}
+          value={`${totals.sodium}`}
           goal={`${sodiumGoal}mg`}
           color = '#34ebab'
           onPressed ={() => setActiveModal('sodium')}
         />
         <MicroCard
           label='Iron'
-          value={`${totals.iron}mg`}
+          value={`${totals.iron}`}
           goal={`${ironGoal}mg`}
           color = '#7d05fc'
           onPressed={() => setActiveModal('iron')}
         />
         <MicroCard
           label='Potassium'
-          value={`${totals.potassium}mg`}
+          value={`${totals.potassium}`}
           goal={`${potassiumGoal}mg`}
           color = '#fc05d7'
           onPressed={() => setActiveModal('potassium')}

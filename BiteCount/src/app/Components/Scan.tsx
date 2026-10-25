@@ -1,7 +1,7 @@
 import { CameraView, useCameraPermissions } from 'expo-camera'
 import { useEffect, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors } from '../../../styles/global'
+import { useTheme } from '../storage/ThemeContext';
 
 type ScanProps = {
     onScan: (data: string) => void;
@@ -9,6 +9,7 @@ type ScanProps = {
 }
 
 export default function Scan({ onScan, onClose }: ScanProps) {
+    const { colors } = useTheme();
     const [permission, requestPermission] = useCameraPermissions();
     const [permissionError, setPermissionError] = useState<string | null>(null);
     const [scanned, setScanned] = useState(false);
@@ -27,16 +28,16 @@ export default function Scan({ onScan, onClose }: ScanProps) {
     }
 
     if (!permission) {
-        return <Text style={styles.message}>Checking camera permission...</Text>;
+        return <Text style={[styles.message, { color: colors.text }]}>Checking camera permission...</Text>;
     }
 
     if (!permission.granted) {
         return (
-            <View style={styles.permissionContainer}>
-                <Text style={styles.message}>
+            <View style={[styles.permissionContainer, { backgroundColor: colors.background }]}>
+                <Text style={[styles.message, { color: colors.text }]}>
                     {permissionError ?? 'Camera access is needed to scan a food barcode.'}
                 </Text>
-                <TouchableOpacity style={styles.button} onPress={() => {
+                <TouchableOpacity style={[styles.button, { backgroundColor: colors.header }]} onPress={() => {
                     setPermissionError(null);
                     requestPermission().catch((error: unknown) => {
                         setPermissionError(
@@ -44,24 +45,24 @@ export default function Scan({ onScan, onClose }: ScanProps) {
                         );
                     });
                 }}>
-                    <Text style={styles.buttonText}>Try Again</Text>
+                    <Text style={[styles.buttonText, { color: colors.text }]}>Try Again</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onClose}>
-                    <Text style={styles.closeText}>Cancel</Text>
+                    <Text style={[styles.closeText, { color: colors.text }]}>Cancel</Text>
                 </TouchableOpacity>
             </View>
         );
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: colors.background }]}>
             <CameraView
                 style={styles.camera}
                 facing="back"
                 onBarcodeScanned={scanned ? undefined : handleBarcodeScanned}
             />
-            <TouchableOpacity style={styles.button} onPress={onClose}>
-                <Text style={styles.buttonText}>Close scanner</Text>
+            <TouchableOpacity style={[styles.button, { backgroundColor: colors.header }]} onPress={onClose}>
+                <Text style={[styles.buttonText, { color: colors.text }]}>Close scanner</Text>
             </TouchableOpacity>
         </View>
     );
@@ -71,7 +72,6 @@ const styles = StyleSheet.create({
     container: {
         height: 420,
         width: '100%',
-        backgroundColor: colors.background,
     },
     camera: {
         flex: 1,
@@ -83,23 +83,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 16,
         padding: 20,
-        backgroundColor: colors.background,
     },
     message: {
-        color: colors.text,
         textAlign: 'center',
     },
     button: {
         alignItems: 'center',
-        backgroundColor: colors.header,
         padding: 12,
     },
     buttonText: {
-        color: colors.text,
         fontWeight: 'bold',
     },
     closeText: {
-        color: colors.text,
         padding: 8,
     },
 });

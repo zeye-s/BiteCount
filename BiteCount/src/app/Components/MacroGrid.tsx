@@ -58,29 +58,29 @@ export default function MacroGrid({ meals }: MacroGridProps) {
     <View style={styles.grid}>
       <MacroCard
         label='Calories'
-        value={`${totals.calories}kcal`}
-        goal= {`${calorieGoal}`}
+        value={`${totals.calories}`}
+        goal= {`${calorieGoal}kcal`}
         color = '#ff5252'
         onPressed={() => setActiveModal('calorie')}
       />
       <MacroCard
         label='Protein'
-        value={`${totals.protein}g`}
-        goal={`${proteinGoal}`}
+        value={`${totals.protein}`}
+        goal={`${proteinGoal}g`}
         color = '#0088ff'
         onPressed={() => setActiveModal('protein')}
       />
       <MacroCard
         label='Carbs'
-        value={`${totals.carbs}g`}
-        goal={`${carbGoal}`}
+        value={`${totals.carbs}`}
+        goal={`${carbGoal}g`}
         color = '#ffaa00'
         onPressed={() => setActiveModal('carb')}
       />
       <MacroCard
         label='Fat'
-        value={`${totals.fat}g`}
-        goal={`${fatGoal}`}
+        value={`${totals.fat}`}
+        goal={`${fatGoal}g`}
         color = '#ffee00'
         onPressed={() => setActiveModal('fat')}
       />

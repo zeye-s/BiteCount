@@ -1,8 +1,6 @@
-import MicroCard from './MicroCards';
-import MacroCard from '../Components/MacroCards';
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Modal} from 'react-native'
-import {colors} from '../../../styles/global'
-import {useState} from 'react'
+import { useTheme } from '../storage/ThemeContext';
+import { useState } from 'react';
 
 type changeGoalProps = {
     visible: boolean,
@@ -13,7 +11,7 @@ type changeGoalProps = {
 }
 
 
-export default function changeGoal(
+export default function ChangeGoal(
     {
         visible,
         label,
@@ -21,17 +19,16 @@ export default function changeGoal(
         onClose,
         onSave,
     }:changeGoalProps){
-     
-    
+    const { colors } = useTheme();
     const[newGoal,setNewGoal] = useState(currentGoal);
     return(
         <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
-        <View style={styles.modalContainer}>
-          <Text style={styles.title}>Edit Goal for {label}</Text>
+        <View style={[styles.modalContainer, { backgroundColor: colors.background }]}>
+          <Text style={[styles.title, { color: colors.text }]}>Edit Goal for {label}</Text>
           
           <TextInput
-            style={styles.input}
+            style={[styles.input, { backgroundColor: colors.header, color: colors.text }]}
             keyboardType="numeric"
             value={newGoal}
             onChangeText={setNewGoal}
@@ -41,18 +38,18 @@ export default function changeGoal(
           />
 
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={onClose}>
-              <Text style={styles.buttonText}>Cancel</Text>
+            <TouchableOpacity style={[styles.button, { backgroundColor: colors.header }]} onPress={onClose}>
+              <Text style={[styles.buttonText, { color: colors.text }]}>Cancel</Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
-              style={[styles.button, styles.saveButton]} 
+              style={[styles.button, { backgroundColor: colors.primary }]}
               onPress={() => {
                 onSave(newGoal);
                 onClose();
               }}
             >
-              <Text style={styles.saveButtonText}>Save</Text>
+              <Text style={[styles.saveButtonText, { color: colors.header }]}>Save</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -70,19 +67,15 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: '80%',
-    backgroundColor: colors.surface,
     padding: 20,
     borderRadius: 15,
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: colors.text,
     marginBottom: 15,
   },
   input: {
-    backgroundColor: colors.header,
-    color: colors.text,
     padding: 12,
     borderRadius: 8,
     fontSize: 14,
@@ -98,18 +91,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 8,
   },
-  cancelButton: {
-    backgroundColor: colors.header,
-  },
-  saveButton: {
-    backgroundColor: colors.primary,
-  },
   buttonText: {
-    color: colors.text,
     fontWeight: 'bold',
   },
   saveButtonText: {
-    color: colors.background,
     fontWeight: 'bold',
   },
 });
