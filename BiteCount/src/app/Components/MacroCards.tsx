@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Touchable } from 'react-native';
 import { colors } from '../../../styles/global';
 
 type MacroCardProps = {
@@ -6,6 +6,7 @@ type MacroCardProps = {
   value: string;
   goal: string;
   color: string;
+  onPressed: () => void;
 };
 
 export default function MacroCard({
@@ -13,12 +14,15 @@ export default function MacroCard({
   value,
   goal,
   color,
+  onPressed,
 }: MacroCardProps) {
   return (
+    <TouchableOpacity onPress={onPressed} activeOpacity={0.8} style={[styles.card, { borderColor: color }]}>
     <View style={[styles.card, { borderLeftColor: color }]}>
       <Text style={styles.label}>{label}</Text>
       <Text style={styles.value}>{value} / <Text style = {styles.goal}>{goal}</Text></Text>
     </View>
+    </TouchableOpacity>
   );
 }
 

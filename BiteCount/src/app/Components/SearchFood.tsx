@@ -123,7 +123,7 @@ if(scanning){
                 <View>
                     <TextInput 
                         style = {styles.userInput}
-                        placeholder = 'Enter the amount you ate (default is 100g)'
+                        placeholder = 'Enter the amount you ate (default is 100)'
                         placeholderTextColor={colors.textSecondary}
                         keyboardType='numeric'
                         value = {ratio}
