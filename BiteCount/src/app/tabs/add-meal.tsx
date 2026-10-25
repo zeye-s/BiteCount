@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   labelRow: {
     flexDirection: 'row',
     gap: 10,
-    marginTop: 16,
+    marginTop: 5,
     paddingHorizontal: 3,
   },
   row: {

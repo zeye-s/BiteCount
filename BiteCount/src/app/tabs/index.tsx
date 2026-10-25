@@ -8,8 +8,6 @@ import MicroGrid from '../Components/MicroGrid';
 import RecentMeals from '../Components/RecentMeals';
 import { getMeals, Meal } from '../storage/meals';
 
-
-
 export default function HomeScreen() {
   const [meals, setMeals] = useState<Meal[]>([]);
 
@@ -27,7 +25,7 @@ export default function HomeScreen() {
 
   return (
     <ScrollView style={[globalStyles.container]}>
-      <Text style={globalStyles.title}>BiteCount</Text>
+      <Text style={[globalStyles.title, {marginBottom: 16}]}>BiteCount</Text>
       
       
       <MacroGrid meals={meals} />

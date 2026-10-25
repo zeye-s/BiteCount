@@ -21,8 +21,8 @@ export default function MacroGrid({ meals }: MacroGridProps) {
     <View style={styles.grid}>
       <MacroCard
         label='Calories'
-        value={`${totals.calories}`}
-        goal='2,000'
+        value={`${totals.calories}kcal`}
+        goal='2,000kcal'
         color = '#ff5252'
       />
       <MacroCard

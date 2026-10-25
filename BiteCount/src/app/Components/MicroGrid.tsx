@@ -26,19 +26,19 @@ export default function MicroGrid({meals}:MicroGridProps) {
         />
         <MicroCard
           label='Sodium'
-          value={`${totals.sodium}g`}
+          value={`${totals.sodium}mg`}
           goal='2000mg'
           color = '#34ebab'
         />
         <MicroCard
           label='Iron'
-          value={`${totals.iron}g`}
+          value={`${totals.iron}mg`}
           goal='12mg'
           color = '#7d05fc'
         />
         <MicroCard
           label='Potassium'
-          value={`${totals.potassium}g`}
+          value={`${totals.potassium}mg`}
           goal='3000mg'
           color = '#fc05d7'
         />

@@ -17,7 +17,7 @@ export default function MicroCard({
     return(
         <View style = {[styles.card, {borderColor: color}]}>
             <Text style = {styles.label}>{label}</Text>
-            <Text style = {styles.value}>{value}</Text>
+            <Text style = {styles.value}>{value}/</Text>
             <Text style = {styles.goal}>{goal}</Text>
 
         </View>

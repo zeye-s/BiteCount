@@ -28,7 +28,8 @@ export default function Search({onSelectProduct}:SearchProps){
     const [query, setQuery] = useState('');
     const[recipe, setRecipe] = useState<Product[]>([]);
     const[scanning, setScanning] = useState(false);
-    
+    const[ratio, setRatio] = useState('');
+
     const searchRecipe = async(searchTerm = query) =>{
         try{
             setRecipeFound(true);
@@ -64,9 +65,29 @@ export default function Search({onSelectProduct}:SearchProps){
         setQuery(data);
         setScanning(false);
         void searchRecipe(data);
-        
-        
     }
+
+    const handleAmountEaten = (product:Product) =>{
+        const amountEaten = Number(ratio) || 100;
+        const factor = amountEaten/ 100;
+        const nutrients = product.nutriments || {};
+        const scaledProduct = {
+            ...product,
+            product_name: `${product.product_name} per ${amountEaten}g`,
+            nutriments:{
+                'energy-kcal_100g': (nutrients['energy-kcal_100g'] || 0) * factor,
+                'carbohydrates_100g': (nutrients['carbohydrates_100g'] || 0) * factor,
+                'proteins_100g': (nutrients['proteins_100g'] || 0) * factor,
+                'fat_100g': (nutrients['fat_100g'] || 0 ) * factor,
+                'sugars_100g': (nutrients['sugars_100g'] || 0) * factor,
+                'sodium_100g':(nutrients['sodium_100g'] || 0) * factor ,
+                'potassium_100g': (nutrients['potassium_100g'] || 0) * factor,
+                'iron_100g': (nutrients['iron_100g'] || 0) * factor,
+            }
+        };
+        onSelectProduct(scaledProduct);
+    };
+
 if(scanning){
         return (
             <View style={styles.container}>
@@ -81,7 +102,6 @@ if(scanning){
         <View style={styles.container}>
                 <Text style={styles.title}>Search Food</Text>
 
-                {/* Search Input and Button */}
                 <View>
                     <TextInput 
                         style={styles.search}
@@ -91,16 +111,25 @@ if(scanning){
                         onChangeText={setQuery}
                         />
                 </View>
+               
                 <View style = {styles.searchButton}>
                     <TouchableOpacity onPress={() => void searchRecipe()}>
                         <Text style={styles.text}>{recipeFound ? 'Searching...' : 'Search'}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={() => setScanning(true)} style = {{marginRight:10,}}>
-                        <Ionicons name = "camera-outline" size = {20} color={colors.text}/>
-                    </TouchableOpacity>
-                        
+                        <TouchableOpacity  onPress={() => setScanning(true)} style = {{marginRight:10, }}>
+                            <Ionicons name = "camera-outline" size = {20} color={colors.text}/>
+                        </TouchableOpacity>
                 </View>
-                    
+                <View>
+                    <TextInput 
+                        style = {styles.userInput}
+                        placeholder = 'Enter the amount you ate (default is 100g)'
+                        placeholderTextColor={colors.textSecondary}
+                        keyboardType='numeric'
+                        value = {ratio}
+                        onChangeText={setRatio}
+                    ></TextInput>
+                </View>
                 {/* Results List */}
                     <FlatList<Product>
                     data={recipe}
@@ -109,7 +138,7 @@ if(scanning){
                     keyboardShouldPersistTaps="handled"
                     style={styles.results}
                     renderItem={({ item }) => (
-                        <TouchableOpacity onPress = {() => onSelectProduct(item)}>
+                        <TouchableOpacity onPress = {() => handleAmountEaten(item)}>
                         <View style={styles.card}>
                             <Text style={styles.productName}>{(item.product_name || 'Unknown Food') + ' Per 100g'}</Text>
                             <Text style={styles.itemName}>Calories: {Math.round((item.nutriments?.['energy-kcal_100g'] || 0))} kcal</Text>
@@ -117,9 +146,9 @@ if(scanning){
                             <Text style={styles.itemName}>Protein: {Math.round((item.nutriments?.proteins_100g || 0))}g</Text>
                             <Text style={styles.itemName}>Fat: {Math.round((item.nutriments?.fat_100g || 0))}g</Text>
                             <Text style={styles.itemName}>Sugar: {Math.round((item.nutriments?.sugars_100g || 0))}g</Text>
-                            <Text style={styles.itemName}>Sodium: {Math.round((item.nutriments?.sodium_100g || 0) * 1000)} mg</Text>
-                            <Text style={styles.itemName}>Potassium: {Math.round((item.nutriments?.potassium_100g || 0) * 1000)}mg</Text>
-                            <Text style={styles.itemName}>Iron: {Math.round((item.nutriments?.iron_100g|| 0) * 1000)}mg</Text>
+                            <Text style={styles.itemName}>Sodium: {Math.round(1000 * (item.nutriments?.sodium_100g || 0))} mg</Text>
+                            <Text style={styles.itemName}>Potassium: {Math.round(1000 * (item.nutriments?.potassium_100g || 0))}mg</Text>
+                            <Text style={styles.itemName}>Iron: {Math.round(1000 * (item.nutriments?.iron_100g|| 0) )}mg</Text>
                             <Text style = {styles.itemName}>Information provided by Open Food Facts API</Text>
                         </View>
                         </TouchableOpacity>
@@ -134,6 +163,13 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background,
         paddingTop: 20,
         paddingHorizontal: 20,
+    },
+    userInput:{
+        backgroundColor: colors.header,
+        marginBottom: 16,
+        borderRadius: 10,
+        color: colors.text,
+        paddingLeft: 10,
     },
     results: {
         maxHeight: 240,
@@ -151,7 +187,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
     },
-        searchButton: {
+    searchButton: {
         display:'flex',
         flexDirection:'row',
         justifyContent:'space-between',
