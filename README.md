@@ -15,6 +15,11 @@ Features:
      * information will not reset until you submit so you can scan other products and add that to the same form
 -  Submitting the form saves the meal information and date it is created at and updates the homescreen
 
+How To Use
+Options:
+-  Open the apk in Android Studio
+-  Start the project in the terminal of vsc (requires npx expo, npm, etc.) using npx expo run and scan the QR code with Expo Go
+
 Make every Bite Count!
   
   
